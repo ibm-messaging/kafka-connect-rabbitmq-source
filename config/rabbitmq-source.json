@@ -1,0 +1,13 @@
+{
+    "name": "RabbitMQSourceConnector",
+    "config": {
+        "connector.class": "com.ibm.eventstreams.connect.rabbitmqsource.RabbitMQSourceConnector",
+        "tasks.max": "10",
+        "kafka.topic" : "kafka_test",
+        "rabbitmq.queue" : "rabbitmq_test",
+        "rabbitmq.prefetch.count" : "500",
+        "rabbitmq.automatic.recovery.enabled" : "true",
+        "rabbitmq.network.recovery.interval.ms" : "10000",
+        "rabbitmq.topology.recovery.enabled" : "true"
+    }
+}
