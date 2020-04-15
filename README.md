@@ -94,7 +94,7 @@ connect-distributed connect-distributed.properties
 2. Run the following command to register the connector with the Kafka Connect service:
 
 ```bash
-curl -s -X POST -H 'Content-Type: application/json' --data @config/rabbitmq-source.json http://localhost:8083/connector
+curl -s -X POST -H 'Content-Type: application/json' --data @config/rabbitmq-source.json http://localhost:8083/connectors
 ```
 
 You can verify that your connector was properly registered by going to `http://localhost:8083/connector` which 
