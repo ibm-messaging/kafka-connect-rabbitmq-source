@@ -50,7 +50,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        com.baeldung.executable.ExecutableMavenJar
+                                        com.ibm.eventstreams.connect.rabbitmqsource.RabbitMQSourceConnector
                                     </mainClass>
                                 </manifest>
                             </archive>
