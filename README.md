@@ -14,7 +14,7 @@ git@github.com:ibm-messaging/kafka-connect-rabbitmq-source.git
 2. Change directory to the `kafka-connect-mq-source` directory:
 
 ```shell
-cd rabbitmq-to-kafka
+cd kafka-connect-mq-source
 ```
 
 3. Build the connector using Maven:
