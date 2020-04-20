@@ -13,6 +13,7 @@ target/
 .idea/
 *.iml
 *.iws
+*.swp
 
 # Visual Studio Code
 .vscode/
