@@ -97,7 +97,7 @@ connect-distributed connect-distributed.properties
 curl -s -X POST -H 'Content-Type: application/json' --data @config/rabbitmq-source.json http://localhost:8083/connectors
 ```
 
-You can verify that your connector was properly registered by going to `http://localhost:8083/connector` which 
+You can verify that your connector was properly registered by going to `http://localhost:8083/connectors` which 
 should return a full list of available connectors.  This JSON connector profile will be propegated to all workers
 across the distributed system.  After following these steps your connector will now run in distributed mode.
 
