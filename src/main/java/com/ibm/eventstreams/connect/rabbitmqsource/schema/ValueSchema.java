@@ -21,6 +21,7 @@ public class ValueSchema {
             .field(FIELD_MESSAGE_BODY, SchemaBuilder.bytes().doc("The value body (opaque, client-specific byte array)").build())
             .build();
 
+    // Hereo3: Body Compose
     public static Struct toStruct(String consumerTag, Envelope envelope, AMQP.BasicProperties basicProperties, byte[] body) {
         return new Struct(SCHEMA)
                 .put(FIELD_MESSAGE_CONSUMERTAG, consumerTag)

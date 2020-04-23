@@ -81,6 +81,7 @@ class ConnectConsumer implements Consumer {
      * @param properties - content header data for the message
      * @param body - the message body (opaque, client-specific byte array)
      */
+    // Hereo1: Body Compose
     @Override public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties basicProperties, byte[] bytes) throws IOException {
         log.trace("handleDelivery({})", consumerTag);
 

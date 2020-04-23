@@ -1,0 +1,9 @@
+{"namespace": "com.ibm.eventstreams.connect.rabbitmqsource",
+ "type": "record",
+ "name": "Users",
+ "fields": [
+     {"name": "name", "type": "string"},
+     {"name": "id",  "type": ["int", "null"]},
+     {"name": "phone", "type": ["string", "null"]}
+ ]
+}
