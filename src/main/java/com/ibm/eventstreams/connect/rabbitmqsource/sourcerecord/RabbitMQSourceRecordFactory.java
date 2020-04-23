@@ -1,25 +1,25 @@
 package com.ibm.eventstreams.connect.rabbitmqsource.sourcerecord;
 
+import com.google.common.collect.ImmutableMap;
 import com.ibm.eventstreams.connect.rabbitmqsource.config.RabbitMQSourceConnectorConfig;
 import com.ibm.eventstreams.connect.rabbitmqsource.schema.EnvelopeSchema;
 import com.ibm.eventstreams.connect.rabbitmqsource.schema.KeySchema;
 import com.ibm.eventstreams.connect.rabbitmqsource.schema.ValueSchema;
-
-import com.google.common.collect.ImmutableMap;
-
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Envelope;
-
 import org.apache.kafka.common.utils.SystemTime;
 import org.apache.kafka.common.utils.Time;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.source.SourceRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
 public class RabbitMQSourceRecordFactory {
+    private static final Logger logger = LoggerFactory.getLogger(RabbitMQSourceRecordFactory.class);
 
     private final RabbitMQSourceConnectorConfig config;
     private final Time time = new SystemTime();
@@ -38,7 +38,11 @@ public class RabbitMQSourceRecordFactory {
         final String topic = this.config.kafkaTopic;
 
         long timestamp = Optional.ofNullable(basicProperties.getTimestamp()).map(Date::getTime).orElse(this.time.milliseconds());
-
+        logger.warn(topic);
+        logger.warn(key.schema().toString());
+        logger.warn(key.toString());
+        logger.warn(value.schema().toString());
+        logger.warn(value.toString());
         return new SourceRecord(
                 sourcePartition,
                 sourceOffset,
