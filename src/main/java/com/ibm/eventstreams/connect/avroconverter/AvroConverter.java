@@ -22,35 +22,44 @@ import java.util.Map;
 
 
 public class AvroConverter implements Converter, HeaderConverter {
+    private JsonConverter jsonConverter;
     private static final Logger logger = LoggerFactory.getLogger(AvroConverter.class);
-
-    JsonConverter jsonConverter = new JsonConverter();
-
+    
+    public AvroConverter() {
+        jsonConverter = new JsonConverter();
+    }
+    
     @Override
-    public void close() throws IOException {
-
+    public void close() {
+        jsonConverter.close();
     }
 
     @Override
     public ConfigDef config() {
-        return null;
+        return jsonConverter.config();
     }
 
     @Override
-    public void configure(Map<String, ?> map) {
+    public void configure(Map<String, ?> configs) {
+        jsonConverter.configure(configs);
 
     }
 
     @Override
-    public void configure(Map<String, ?> map, boolean b) {
-
+    public void configure(Map<String, ?> configs, boolean isKey) {
+        jsonConverter.configure(configs, isKey);
     }
 
     @Override
     public byte[] fromConnectData(String topic, Schema schema, Object value) {
-        return new byte[0];
+        logger.warn(topic);
+        logger.warn(schema.toString());
+        logger.warn(value.toString());
+        byte[] bytes = jsonConverter.fromConnectData(topic, schema, value);
+        logger.warn(bytes.toString());
+        return bytes;
     }
-
+//
     @Override
     public SchemaAndValue toConnectData(String topic, byte[] bytes) {
         logger.warn(topic);
@@ -63,11 +72,11 @@ public class AvroConverter implements Converter, HeaderConverter {
 
     @Override
     public SchemaAndValue toConnectHeader(String topic, String headerKey, byte[] value) {
-        return null;
+        return jsonConverter.toConnectHeader(topic, headerKey, value);
     }
 
     @Override
     public byte[] fromConnectHeader(String topic, String headerKey, Schema schema, Object value) {
-        return new byte[0];
+        return jsonConverter.fromConnectHeader(topic, headerKey, schema, value);
     }
 }
