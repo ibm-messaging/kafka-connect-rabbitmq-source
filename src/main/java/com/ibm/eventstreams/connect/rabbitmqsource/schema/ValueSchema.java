@@ -13,11 +13,12 @@ public class ValueSchema {
     static final String FIELD_MESSAGE_BODY = "body";
 
     static final Schema SCHEMA = SchemaBuilder.struct()
-            .field(FIELD_MESSAGE_BODY, SchemaBuilder.bytes().doc("The value body (opaque, client-specific byte array)").build())
+            .field(FIELD_MESSAGE_BODY, SchemaBuilder.string().build())
             .build();
 
     public static Struct toStruct(String consumerTag, Envelope envelope, AMQP.BasicProperties basicProperties, byte[] body) {
+        String bodyString = new String(body);
         return new Struct(SCHEMA)
-                .put(FIELD_MESSAGE_BODY, body);
+                .put(FIELD_MESSAGE_BODY, bodyString);
     }
 }

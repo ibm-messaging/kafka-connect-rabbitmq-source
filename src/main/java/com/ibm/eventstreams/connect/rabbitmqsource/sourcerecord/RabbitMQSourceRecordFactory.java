@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.apache.kafka.connect.data.Schema.STRING_SCHEMA;
+
 public class RabbitMQSourceRecordFactory {
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQSourceRecordFactory.class);
 
@@ -32,17 +34,13 @@ public class RabbitMQSourceRecordFactory {
         final Map<String, ?> sourcePartition = ImmutableMap.of(EnvelopeSchema.FIELD_ROUTINGKEY, envelope.getRoutingKey());
         final Map<String, ?> sourceOffset = ImmutableMap.of(EnvelopeSchema.FIELD_DELIVERYTAG, envelope.getDeliveryTag());
 
+//        TODO: consider making key value be a String like the value
         final Struct key = KeySchema.toStruct(basicProperties);
         final Struct value = ValueSchema.toStruct(consumerTag, envelope, basicProperties, bytes);
-
+        final String messageBody = value.getString("body");
         final String topic = this.config.kafkaTopic;
-
         long timestamp = Optional.ofNullable(basicProperties.getTimestamp()).map(Date::getTime).orElse(this.time.milliseconds());
-        logger.warn(topic);
-        logger.warn(key.schema().toString());
-        logger.warn(key.toString());
-        logger.warn(value.schema().toString());
-        logger.warn(value.toString());
+
         return new SourceRecord(
                 sourcePartition,
                 sourceOffset,
@@ -50,8 +48,8 @@ public class RabbitMQSourceRecordFactory {
                 null,
                 key.schema(),
                 key,
-                value.schema(),
-                value,
+                STRING_SCHEMA,
+                messageBody,
                 timestamp
         );
     }

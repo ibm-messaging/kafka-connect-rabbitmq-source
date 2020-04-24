@@ -8,11 +8,9 @@ import org.apache.kafka.connect.data.Struct;
 public class KeySchema {
 
     static final Schema SCHEMA = SchemaBuilder.struct()
-            .name("MESSAGE KEY: ")
-            .doc("Key used for partition assignment in Kafka.")
             .field(
                     BasicPropertiesSchema.FIELD_MESSAGEID,
-                    SchemaBuilder.string().optional().doc("The value in the messageId field. BasicProperties.getMessageId(): ").build()
+                    SchemaBuilder.string().optional().build()
             )
             .build();
 
