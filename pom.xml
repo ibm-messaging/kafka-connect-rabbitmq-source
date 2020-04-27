@@ -96,15 +96,6 @@
             <artifactId>google-collections</artifactId>
             <version>1.0-rc2</version>
         </dependency>
-
-        <dependency>
-        <groupId>com.ibm.eventstreams.connect.avroconverter</groupId>
-        <artifactId>avroconverter</artifactId>
-        <version>1.0</version>
-        <scope>system</scope>
-        <systemPath>${project.basedir}/src/main/resources/kafka-connect-avro-converter-1.0-SNAPSHOT-jar-with-dependencies.jar</systemPath>
-    </dependency>
-
     </dependencies>
 
 </project>
