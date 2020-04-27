@@ -43,7 +43,7 @@ public class HeaderSchema {
         SCHEMA = builder.build();
     }
 
-    static final Map<Class<?>, String> FIELD_LOOKUP;
+    static final Map<Class<?>, String> FIELD_TYPE_LOOKUP;
     static {
         Map<Class<?>, String> fieldLookup = new HashMap<>();
         fieldLookup.put(String.class, Schema.Type.STRING.name().toLowerCase());
@@ -56,15 +56,16 @@ public class HeaderSchema {
         fieldLookup.put(Boolean.class, Schema.Type.BOOLEAN.name().toLowerCase());
         fieldLookup.put(ArrayList.class, Schema.Type.ARRAY.name().toLowerCase());
         fieldLookup.put(Date.class, "timestamp");
-        FIELD_LOOKUP = ImmutableMap.copyOf(fieldLookup);
+        FIELD_TYPE_LOOKUP = ImmutableMap.copyOf(fieldLookup);
     }
 
     static Map<String, Struct> toStructMap(BasicProperties basicProperties) {
         Map<String, Object> input = basicProperties.getHeaders();
+
         Map<String, Struct> results = new LinkedHashMap<>();
         if (null != input) {
             for (Map.Entry<String, Object> kvp : input.entrySet()) {
-                log.trace("headers() - key = '{}' value= '{}'", kvp.getKey(), kvp.getValue());
+                log.info("headers() - key = '{}' value= '{}'", kvp.getKey(), kvp.getValue());
                 final String field;
                 final Object headerValue;
 
@@ -81,12 +82,12 @@ public class HeaderSchema {
                     headerValue = kvp.getValue();
                 }
 
-                if (!FIELD_LOOKUP.containsKey(headerValue.getClass())) {
+                if (!FIELD_TYPE_LOOKUP.containsKey(headerValue.getClass())) {
                     throw new DataException(
                             String.format("Could not determine the type for field '%s' type '%s'", kvp.getKey(), headerValue.getClass().getName())
                     );
                 } else {
-                    field = FIELD_LOOKUP.get(headerValue.getClass());
+                    field = FIELD_TYPE_LOOKUP.get(headerValue.getClass());
                 }
 
                 log.trace("headers() - Storing value for header in field = '{}' as {}", field, field);
@@ -97,6 +98,7 @@ public class HeaderSchema {
                 results.put(kvp.getKey(), value);
             }
         }
+        log.info("RESULTS " + results);
         return results;
     }
 
