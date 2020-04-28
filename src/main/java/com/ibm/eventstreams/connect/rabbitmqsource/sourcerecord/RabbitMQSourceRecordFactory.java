@@ -40,31 +40,26 @@ public class RabbitMQSourceRecordFactory {
         return new Header() {
             @Override
             public String key() {
-                System.out.println("KEY CALLED!");
                 return key;
             }
 
             @Override
             public Schema schema() { // TODO Infer from type
-                System.out.println("SCHEMA CALLED!");
                 return BYTES_SCHEMA;
             }
 
             @Override
             public Object value() {
-                System.out.println("VALUE CALLED! " + Arrays.toString(Values.convertToString(BYTES_SCHEMA, value).getBytes(StandardCharsets.UTF_8)));
                 return value;
             }
 
             @Override
             public Header with(Schema schema, Object o) {
-                System.out.println("WITH CALLED!");
                 return null;
             }
 
             @Override
             public Header rename(String s) {
-                System.out.println("RENAME CALLED!");
                 return null;
             }
         };
@@ -108,13 +103,15 @@ public class RabbitMQSourceRecordFactory {
 
         long timestamp = Optional.ofNullable(basicProperties.getTimestamp()).map(Date::getTime).orElse(this.time.milliseconds());
 
+        logger.info("MAKING SOURCE RECORD!!!!");
+
         return new SourceRecord(
                 sourcePartition,
                 sourceOffset,
                 topic,
                 null,
-                key.schema(),
-                key,
+                STRING_SCHEMA,
+                null,
                 STRING_SCHEMA,
                 messageBody,
                 timestamp,
