@@ -97,7 +97,7 @@ public class RabbitMQSourceRecordFactory {
         final Struct value = ValueSchema.toStruct(consumerTag, envelope, basicProperties, bytes);
 
         List<Header> headers = toConnectHeaders(basicProperties.getHeaders());
-        final String messageBody = value.getString("body");
+        final byte [] messageBody = value.getBytes("body");
 
         final String topic = this.config.kafkaTopic;
 
@@ -112,7 +112,7 @@ public class RabbitMQSourceRecordFactory {
                 null,
                 STRING_SCHEMA,
                 null,
-                STRING_SCHEMA,
+                BYTES_SCHEMA,
                 messageBody,
                 timestamp,
                 headers
