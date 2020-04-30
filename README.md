@@ -113,6 +113,11 @@ Go to the RabbitMQ site at the following URL: `http://localhost:15672/`
 
 Create a new queue `rabbitmq_test`.
 
+### Kafka Record Key
+
+When sending message to RabbitMQ, include the key from the Kafka record in the headers as "keyValue". (Only string keys are supported at the moment)
+If used in combination with JDBC sink connector, include the ID field name as "keyName" in the headers as well (e.g. "transationId"). The keyName will be used as the primary key when inserting a record.
+
 ## Testing
 
 Publish a new item to your RabbitMQ queue `rabbitmq_test` from the http://localhost:15672 webui console. 

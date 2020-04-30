@@ -40,7 +40,7 @@ public class RabbitMQSourceRecordFactory {
             }
 
             @Override
-            public Schema schema() { // TODO Infer from type
+            public Schema schema() {
                 return BYTES_SCHEMA;
             }
 
@@ -86,20 +86,17 @@ public class RabbitMQSourceRecordFactory {
     }
 
     public SourceRecord makeSourceRecord(String consumerTag, Envelope envelope, AMQP.BasicProperties basicProperties, byte[] bytes) {
+        final String topic = this.config.kafkaTopic;
         final Map<String, ?> sourcePartition = ImmutableMap.of(EnvelopeSchema.FIELD_ROUTINGKEY, envelope.getRoutingKey());
         final Map<String, ?> sourceOffset = ImmutableMap.of(EnvelopeSchema.FIELD_DELIVERYTAG, envelope.getDeliveryTag());
 
-        final Struct key = KeySchema.toStruct(basicProperties);
+        Object key = basicProperties.getHeaders().get(KeySchema.KEY);
+        key = key == null ? null : key.toString();
         final Struct value = ValueSchema.toStruct(consumerTag, envelope, basicProperties, bytes);
 
         List<Header> headers = toConnectHeaders(basicProperties.getHeaders());
-        final String messageBody = value.getString("body");
-
-        final String topic = this.config.kafkaTopic;
-
+        final String messageBody = value.getString(ValueSchema.FIELD_MESSAGE_BODY);
         long timestamp = Optional.ofNullable(basicProperties.getTimestamp()).map(Date::getTime).orElse(this.time.milliseconds());
-
-        logger.info("MAKING SOURCE RECORD!!!!");
 
         return new SourceRecord(
                 sourcePartition,
@@ -107,7 +104,7 @@ public class RabbitMQSourceRecordFactory {
                 topic,
                 null,
                 OPTIONAL_STRING_SCHEMA,
-                null,
+                key,
                 STRING_SCHEMA,
                 messageBody,
                 timestamp,
