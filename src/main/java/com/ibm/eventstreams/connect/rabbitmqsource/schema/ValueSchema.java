@@ -10,7 +10,7 @@ public class ValueSchema {
     static final String FIELD_MESSAGE_CONSUMERTAG = "consumerTag";
     static final String FIELD_MESSAGE_ENVELOPE = "envelope";
     static final String FIELD_MESSAGE_BASICPROPERTIES = "basicProperties";
-    static final String FIELD_MESSAGE_BODY = "body";
+    public static final String FIELD_MESSAGE_BODY = "body";
 
     static final Schema SCHEMA = SchemaBuilder.struct()
             .name("MESSAGE: ")
