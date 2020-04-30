@@ -17,3 +17,7 @@ target/
 
 # Visual Studio Code
 .vscode/
+
+.pairs
+
+
