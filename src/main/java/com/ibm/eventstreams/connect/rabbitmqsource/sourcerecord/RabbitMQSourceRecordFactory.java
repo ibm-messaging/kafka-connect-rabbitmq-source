@@ -12,18 +12,14 @@ import org.apache.kafka.common.utils.SystemTime;
 import org.apache.kafka.common.utils.Time;
 import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.data.Struct;
-import org.apache.kafka.connect.data.Values;
 import org.apache.kafka.connect.header.Header;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static org.apache.kafka.connect.data.Schema.BYTES_SCHEMA;
-import static org.apache.kafka.connect.data.Schema.STRING_SCHEMA;
+import static org.apache.kafka.connect.data.Schema.*;
 
 public class RabbitMQSourceRecordFactory {
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQSourceRecordFactory.class);
@@ -97,7 +93,7 @@ public class RabbitMQSourceRecordFactory {
         final Struct value = ValueSchema.toStruct(consumerTag, envelope, basicProperties, bytes);
 
         List<Header> headers = toConnectHeaders(basicProperties.getHeaders());
-        final byte [] messageBody = value.getBytes("body");
+        final String messageBody = value.getString("body");
 
         final String topic = this.config.kafkaTopic;
 
@@ -110,9 +106,9 @@ public class RabbitMQSourceRecordFactory {
                 sourceOffset,
                 topic,
                 null,
-                STRING_SCHEMA,
+                OPTIONAL_STRING_SCHEMA,
                 null,
-                BYTES_SCHEMA,
+                STRING_SCHEMA,
                 messageBody,
                 timestamp,
                 headers
