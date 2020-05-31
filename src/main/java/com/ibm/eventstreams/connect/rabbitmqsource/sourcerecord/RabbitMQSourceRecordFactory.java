@@ -90,11 +90,17 @@ public class RabbitMQSourceRecordFactory {
         final Map<String, ?> sourcePartition = ImmutableMap.of(EnvelopeSchema.FIELD_ROUTINGKEY, envelope.getRoutingKey());
         final Map<String, ?> sourceOffset = ImmutableMap.of(EnvelopeSchema.FIELD_DELIVERYTAG, envelope.getDeliveryTag());
 
-        Object key = basicProperties.getHeaders().get(KeySchema.KEY);
+        Object key = null;
+        if (basicProperties.getHeaders() != null){
+        	key = basicProperties.getHeaders().get(KeySchema.KEY);
+        }
         key = key == null ? null : key.toString();
         final Struct value = ValueSchema.toStruct(consumerTag, envelope, basicProperties, bytes);
 
-        List<Header> headers = toConnectHeaders(basicProperties.getHeaders());
+        List<Header> headers = new ArrayList<Header>();
+        if (basicProperties.getHeaders() != null) {
+        	headers = toConnectHeaders(basicProperties.getHeaders());
+        }
         final String messageBody = value.getString(ValueSchema.FIELD_MESSAGE_BODY);
         long timestamp = Optional.ofNullable(basicProperties.getTimestamp()).map(Date::getTime).orElse(this.time.milliseconds());
 
