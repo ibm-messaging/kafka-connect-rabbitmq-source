@@ -73,7 +73,7 @@ class RabbitMQConnectorConfig extends AbstractConfig {
         this.host = this.getString(CONFIG_NAME_RABBITMQ_HOST);
         this.port = this.getInt(CONFIG_NAME_RABBITMQ_PORT);
         this.username = this.getString(CONFIG_NAME_RABBITMQ_USERNAME);
-        this.password = this.getString(CONFIG_NAME_RABBITMQ_PASSWORD);
+        this.password = this.getPassword(CONFIG_NAME_RABBITMQ_PASSWORD).value();
         this.virtualHost = this.getString(CONFIG_NAME_RABBITMQ_VIRTUAL_HOST);
         this.requestedChannelMax = this.getInt(CONFIG_NAME_RABBITMQ_REQUESTED_CHANNEL_MAX);
         this.requestedFrameMax = this.getInt(CONFIG_NAME_RABBITMQ_REQUESTED_FRAME_MAX);
@@ -94,7 +94,7 @@ class RabbitMQConnectorConfig extends AbstractConfig {
         config.define(CONFIG_NAME_RABBITMQ_HOST, ConfigDef.Type.STRING, ConnectionFactory.DEFAULT_HOST, ConfigDef.Importance.HIGH, CONFIG_DOCUMENTATION_RABBITMQ_HOST);
         config.define(CONFIG_NAME_RABBITMQ_PORT, ConfigDef.Type.INT, ConnectionFactory.DEFAULT_AMQP_PORT, ConfigDef.Importance.MEDIUM, CONFIG_DOCUMENTATION_RABBITMQ_PORT);
         config.define(CONFIG_NAME_RABBITMQ_USERNAME, ConfigDef.Type.STRING, ConnectionFactory.DEFAULT_USER, ConfigDef.Importance.HIGH, CONFIG_DOCUMENTATION_RABBITMQ_USERNAME);
-        config.define(CONFIG_NAME_RABBITMQ_PASSWORD, ConfigDef.Type.STRING, ConnectionFactory.DEFAULT_PASS, ConfigDef.Importance.HIGH, CONFIG_DOCUMENTATION_RABBITMQ_PASSWORD);
+        config.define(CONFIG_NAME_RABBITMQ_PASSWORD, ConfigDef.Type.PASSWORD, ConnectionFactory.DEFAULT_PASS, ConfigDef.Importance.HIGH, CONFIG_DOCUMENTATION_RABBITMQ_PASSWORD);
         config.define(CONFIG_NAME_RABBITMQ_VIRTUAL_HOST, ConfigDef.Type.STRING, ConnectionFactory.DEFAULT_VHOST, ConfigDef.Importance.HIGH, CONFIG_DOCUMENTATION_RABBITMQ_VIRTUAL_HOST);
         config.define(CONFIG_NAME_RABBITMQ_REQUESTED_CHANNEL_MAX, ConfigDef.Type.INT, ConnectionFactory.DEFAULT_CHANNEL_MAX, ConfigDef.Importance.LOW, CONFIG_DOCUMENTATION_RABBITMQ_REQUESTED_CHANNEL_MAX);
         config.define(CONFIG_NAME_RABBITMQ_REQUESTED_FRAME_MAX, ConfigDef.Type.INT, ConnectionFactory.DEFAULT_FRAME_MAX, ConfigDef.Importance.LOW, CONFIG_DOCUMENTATION_RABBITMQ_REQUESTED_FRAME_MAX);
