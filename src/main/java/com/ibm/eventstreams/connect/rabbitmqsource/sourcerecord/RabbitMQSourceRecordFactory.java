@@ -70,10 +70,10 @@ public class RabbitMQSourceRecordFactory {
             if (headerValue instanceof LongString) {
                 headerValue = kvp.getValue().toString();
             } else if (kvp.getValue() instanceof List) {
-                final List<LongString> list = (List<LongString>) headerValue;
+                final List<Object> list = (List<Object>) kvp.getValue();
                 final List<String> values = new ArrayList<>(list.size());
-                for (LongString l : list) {
-                    values.add(l.toString());
+                for (Object obj : list) {
+                    values.add(obj.toString());
                 }
                 headerValue = values;
             }
